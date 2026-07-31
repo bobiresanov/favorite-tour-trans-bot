@@ -29,17 +29,11 @@ KONTAKT:
 """
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("""
-Assalomu alaykum! 👋
-
-🚛 FAVORITE TOUR TRANS - AI Konsultant Bot
-
-Istalgan savol bering - AI sizga javob beradı! 🤖
-    """)
+    await update.message.reply_text("Assalomu alaykum! 👋\n\n🚛 FAVORITE TOUR TRANS - AI Bot\n\nIstalgan savol bering!")
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
-    loading_msg = await update.message.reply_text("🤔 AI javob bermoqdaman...")
+    loading_msg = await update.message.reply_text("🤔 Javob bermoqdaman...")
     
     try:
         response = client.chat.completions.create(
@@ -58,5 +52,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ai_response = response.choices[0].message.content
         await loading_msg.delete()
         await update.message.reply_text(ai_response)
-        
     except Exception as e:
+        await loading_msg.delete()
+        await update.message.reply_text(f"❌ Xatolik: {str(e)}")
+
+def main():
+    TOKEN = os.environ.get("TELEGRAM_TOKEN")
+    application = Application.builder().toke
